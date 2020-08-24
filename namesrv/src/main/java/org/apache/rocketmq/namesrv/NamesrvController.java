@@ -45,7 +45,12 @@ public class NamesrvController {
     private final NamesrvConfig namesrvConfig;
 
     private final NettyServerConfig nettyServerConfig;
-
+    /**
+     * NameServer 定时任务执行线程池，默认定时执行两个任务：
+     *
+     * 任务1、每隔 10s 扫描 broker ,维护当前存活的Broker信息。
+     * 任务2、每隔 10s 打印KVConfig 信息。
+     */
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl(
         "NSScheduledThread"));
     private final KVConfigManager kvConfigManager;
