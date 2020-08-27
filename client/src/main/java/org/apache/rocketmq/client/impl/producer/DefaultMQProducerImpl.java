@@ -805,7 +805,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
                     }
                 }
 
-                SendResult sendResult = null;
+                 SendResult sendResult = null;
                 switch (communicationMode) {
                     case ASYNC:
                         Message tmpMessage = msg;

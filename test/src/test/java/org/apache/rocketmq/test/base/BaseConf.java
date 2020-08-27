@@ -138,6 +138,22 @@ public class BaseConf {
         return getConsumer(nsAddr, consumerGroup, topic, subExpression, listener, useTLS);
     }
 
+    public static void shutdown() {
+        try {
+            for (Object mqClient : mqClients) {
+                if (mqClient instanceof AbstractMQProducer) {
+                    ((AbstractMQProducer) mqClient).shutdown();
+
+                } else {
+                    ((AbstractMQConsumer) mqClient).shutdown();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static RMQNormalConsumer getConsumer(String nsAddr, String consumerGroup, String topic,
         String subExpression, AbstractListener listener) {
         return getConsumer(nsAddr, consumerGroup, topic, subExpression, listener, false);
@@ -154,21 +170,5 @@ public class BaseConf {
         log.info(String.format("consumer[%s] start,topic[%s],subExpression[%s]", consumerGroup,
             topic, subExpression));
         return consumer;
-    }
-
-    public static void shutdown() {
-        try {
-            for (Object mqClient : mqClients) {
-                if (mqClient instanceof AbstractMQProducer) {
-                    ((AbstractMQProducer) mqClient).shutdown();
-
-                } else {
-                    ((AbstractMQConsumer) mqClient).shutdown();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 }
